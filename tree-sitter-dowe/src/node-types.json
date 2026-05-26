@@ -25,12 +25,36 @@
     "fields": {}
   },
   {
+    "type": "body_type_binding",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "body_keyword",
+          "named": true
+        },
+        {
+          "type": "type_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "component_name",
     "named": true,
     "fields": {}
   },
   {
     "type": "control_keyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "identifier",
     "named": true,
     "fields": {}
   },
@@ -62,7 +86,15 @@
       "required": true,
       "types": [
         {
+          "type": "body_type_binding",
+          "named": true
+        },
+        {
           "type": "prop",
+          "named": true
+        },
+        {
+          "type": "type_prop",
           "named": true
         },
         {
@@ -98,6 +130,10 @@
         },
         {
           "type": "root_keyword",
+          "named": true
+        },
+        {
+          "type": "type_field",
           "named": true
         }
       ]
@@ -199,7 +235,17 @@
   {
     "type": "root_keyword",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "type_keyword",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "source_file",
@@ -220,6 +266,10 @@
         },
         {
           "type": "text_line",
+          "named": true
+        },
+        {
+          "type": "type_declaration",
           "named": true
         }
       ]
@@ -322,6 +372,107 @@
     }
   },
   {
+    "type": "type_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_keyword",
+          "named": true
+        },
+        {
+          "type": "type_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_field_key",
+          "named": true
+        },
+        {
+          "type": "type_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_field_key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "action_keyword",
+          "named": true
+        },
+        {
+          "type": "block_keyword",
+          "named": true
+        },
+        {
+          "type": "body_keyword",
+          "named": true
+        },
+        {
+          "type": "component_name",
+          "named": true
+        },
+        {
+          "type": "control_keyword",
+          "named": true
+        },
+        {
+          "type": "root_keyword",
+          "named": true
+        },
+        {
+          "type": "type_field_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_field_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "type_prop",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_keyword",
+          "named": true
+        },
+        {
+          "type": "type_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "value",
     "named": true,
     "fields": {},
@@ -331,6 +482,10 @@
       "types": [
         {
           "type": "array",
+          "named": true
+        },
+        {
+          "type": "array_type_reference",
           "named": true
         },
         {
@@ -505,8 +660,16 @@
     "named": false
   },
   {
+    "type": "array_type_reference",
+    "named": true
+  },
+  {
     "type": "assign",
     "named": false
+  },
+  {
+    "type": "body_keyword",
+    "named": true
   },
   {
     "type": "boolean",
@@ -578,10 +741,6 @@
   },
   {
     "type": "host_function",
-    "named": true
-  },
-  {
-    "type": "identifier",
     "named": true
   },
   {
@@ -707,6 +866,18 @@
   {
     "type": "theme",
     "named": false
+  },
+  {
+    "type": "type_keyword",
+    "named": true
+  },
+  {
+    "type": "type_name",
+    "named": true
+  },
+  {
+    "type": "type_reference",
+    "named": true
   },
   {
     "type": "variable",

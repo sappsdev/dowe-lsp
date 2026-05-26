@@ -188,3 +188,47 @@ page formPage
         (property_name)
         (value
           (string))))))
+
+==================
+Typed signals
+==================
+
+type BlogItem
+  title:string
+
+page blogPage
+  signal blogs type:BlogItem[] value:[]
+
+---
+
+(source_file
+  (type_declaration
+    (type_keyword)
+    (type_name))
+  (node_line
+    (line_name
+      (type_field
+        (type_field_key
+          (type_field_name))
+        (type_reference))))
+  (node_line
+    (line_name
+      (root_keyword))
+    (line_item
+      (value
+        (property_name))))
+  (node_line
+    (line_name
+      (action_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (type_prop
+        (type_keyword)
+        (type_reference)))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (array))))))

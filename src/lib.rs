@@ -31,15 +31,11 @@ impl DoweExtension {
             return Ok(DoweLanguageServerBinary { path, args });
         }
 
-        let path = self
-            .zed_managed_binary_path(language_server_id)
-            .or_else(|_| {
-                worktree.which(LANGUAGE_SERVER_BINARY).ok_or_else(|| {
-                    format!(
-                        "{LANGUAGE_SERVER_BINARY} was not found on PATH and no downloadable release asset was available"
-                    )
-                })
-            })?;
+        let path = if let Some(path) = worktree.which(LANGUAGE_SERVER_BINARY) {
+            path
+        } else {
+            self.zed_managed_binary_path(language_server_id)?
+        };
 
         Ok(DoweLanguageServerBinary { path, args })
     }

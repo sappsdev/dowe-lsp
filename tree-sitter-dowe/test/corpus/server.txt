@@ -136,3 +136,64 @@ middleware requireBearer async req
               (property_name)
               (value
                 (string)))))))))
+
+==================
+Declared types
+==================
+
+type User
+  name:string
+  age:number
+
+handler createUser async req
+  let body:User = await req.json()
+
+---
+
+(source_file
+  (type_declaration
+    (type_keyword)
+    (type_name))
+  (node_line
+    (line_name
+      (type_field
+        (type_field_key
+          (type_field_name))
+        (type_reference))))
+  (node_line
+    (line_name
+      (type_field
+        (type_field_key
+          (type_field_name))
+        (type_reference))))
+  (node_line
+    (line_name
+      (block_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (property_name))))
+  (node_line
+    (line_name
+      (action_keyword))
+    (line_item
+      (body_type_binding
+        (body_keyword)
+        (type_reference)))
+    (line_item
+      (value
+        (text_fragment)))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (reference)))
+    (line_item
+      (value
+        (text_fragment)))))

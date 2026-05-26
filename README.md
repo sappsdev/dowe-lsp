@@ -69,7 +69,7 @@ Select label:"Role" placeholder:"Choose a role" labelFloating:true variant:"soft
 
 ## Language Server
 
-The published extension must not depend on a private Dowe checkout. By default, the adapter asks Zed to download `dowe-language-server` from public release assets on `dowe-lang/dowe-lsp`.
+The published extension must not depend on a private Dowe checkout. The adapter uses an explicit Zed LSP binary setting when present, then a `dowe-language-server` binary on `PATH`, and otherwise asks Zed to download `dowe-language-server` from public release assets on `dowe-lang/dowe-lsp`.
 
 Each release that should provide language-server features needs these assets:
 
@@ -87,7 +87,11 @@ Each archive should contain the executable at its root:
 - `dowe-language-server` for macOS and Linux.
 - `dowe-language-server.exe` for Windows.
 
-For local development only, a `dowe-language-server` binary on `PATH` is still accepted as a fallback or through Zed LSP binary settings.
+For local development, install the current language server on `PATH` after compiler or language API changes:
+
+```sh
+cargo install --path crates/language_server --force
+```
 
 ## Publishing
 

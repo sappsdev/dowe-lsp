@@ -2,10 +2,12 @@ module.exports = grammar({
   name: "dowe",
   extras: $ => [/[ \r]/],
   rules: {
-    source_file: $ => repeat(choice(seq(choice($.import_statement, $.node_line, $.text_line), "\n"), "\n")),
+    source_file: $ => repeat(choice(seq(choice($.import_statement, $.type_declaration, $.node_line, $.text_line), "\n"), "\n")),
     import_statement: $ => seq("import", $.identifier, "from", $.import_path),
+    type_declaration: $ => seq($.type_keyword, $.type_name),
     node_line: $ => seq(field("name", $.line_name), repeat($.line_item)),
     line_name: $ => choice(
+      $.type_field,
       $.root_keyword,
       $.block_keyword,
       $.control_keyword,
@@ -13,7 +15,9 @@ module.exports = grammar({
       $.component_name
     ),
     text_line: $ => seq(field("text", $.text_token), repeat($.text_token)),
-    line_item: $ => choice($.prop, $.value),
+    line_item: $ => choice($.body_type_binding, $.type_prop, $.prop, $.value),
+    body_type_binding: $ => prec(3, seq($.body_keyword, token.immediate(":"), $.type_reference)),
+    type_prop: $ => prec(2, seq($.type_keyword, token.immediate(":"), $.type_reference)),
     prop: $ => prec(1, seq($.property_name, ":", $.value)),
     value: $ => choice(
       $.string,
@@ -22,6 +26,7 @@ module.exports = grammar({
       $.boolean,
       $.null,
       $.number,
+      $.array_type_reference,
       $.host_function,
       $.method_name,
       $.path_literal,
@@ -57,8 +62,29 @@ module.exports = grammar({
     path_literal: $ => /\/[A-Za-z0-9_./:-]*/,
     host_function: $ => token(prec(3, choice("bearer", "jwt.verify", "jwt.decrypt", "jwt.sign", "jwt.encrypt"))),
     method_name: $ => choice("GET", "POST", "PUT", "PATCH", "DELETE"),
+    type_field: $ => seq(
+      $.type_field_key,
+      optional(token.immediate("?")),
+      token.immediate(":"),
+      $.type_reference
+    ),
+    type_field_key: $ => choice(
+      $.type_field_name,
+      $.root_keyword,
+      $.block_keyword,
+      $.control_keyword,
+      $.action_keyword,
+      $.component_name,
+      $.body_keyword
+    ),
+    type_field_name: $ => token(prec(-1, /[A-Za-z_][A-Za-z0-9_]*/)),
+    type_reference: $ => token.immediate(prec(3, /[A-Za-z_][A-Za-z0-9_]*(\[\])?/)),
+    array_type_reference: $ => token(prec(4, /[A-Za-z_][A-Za-z0-9_]*\[\]/)),
+    type_name: $ => token(prec(3, /[A-Za-z_][A-Za-z0-9_]*/)),
+    type_keyword: $ => token(prec(5, "type")),
+    body_keyword: $ => token(prec(5, "body")),
     text_fragment: $ => token(prec(-2, /[^ \r\n\t\[\]\{\}",:\/]+/)),
-    root_keyword: $ => choice("config", "main", "views", "layout", "page", "component"),
+    root_keyword: $ => choice("config", "main", "views", "layout", "page", "component", $.type_keyword),
     block_keyword: $ => choice(
       "desktop",
       "server",

@@ -1,3 +1,5 @@
+(type_declaration
+  (type_name) @name) @item
 (node_line
   name: (line_name [
     (root_keyword)
