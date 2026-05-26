@@ -1,0 +1,5 @@
+name = "Dowe"
+grammar = "dowe"
+path_suffixes = ["dowe"]
+tab_size = 2
+hard_tabs = false

@@ -1,0 +1,138 @@
+==================
+Server route middleware and JWT host functions
+==================
+
+server
+  route "/users/:id" middleware:[requireBearer]
+
+middleware requireBearer async req
+  let token = bearer authorization
+  let verified = jwt.verify token secret:env.JWT_SECRET algorithm:"HS256"
+  if verified.valid
+    return continue context:{ auth:{ subject:verified.claims.sub claims:verified.claims } }
+  return response status:401 json:{ ok:false error:"Unauthorized" }
+
+---
+
+(source_file
+  (node_line
+    (line_name
+      (block_keyword)))
+  (node_line
+    (line_name
+      (block_keyword))
+    (line_item
+      (value
+        (string)))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (array
+            (value
+              (property_name)))))))
+  (node_line
+    (line_name
+      (block_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (property_name))))
+  (node_line
+    (line_name
+      (action_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (text_fragment)))
+    (line_item
+      (value
+        (host_function)))
+    (line_item
+      (value
+        (property_name))))
+  (node_line
+    (line_name
+      (action_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (value
+        (text_fragment)))
+    (line_item
+      (value
+        (host_function)))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (reference))))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (string)))))
+  (node_line
+    (line_name
+      (control_keyword))
+    (line_item
+      (value
+        (reference))))
+  (node_line
+    (line_name
+      (action_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (object
+            (object_entry
+              (property_name)
+              (value
+                (object
+                  (object_entry
+                    (property_name)
+                    (value
+                      (reference)))
+                  (object_entry
+                    (property_name)
+                    (value
+                      (reference)))))))))))
+  (node_line
+    (line_name
+      (action_keyword))
+    (line_item
+      (value
+        (property_name)))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (number))))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (object
+            (object_entry
+              (property_name)
+              (value
+                (boolean)))
+            (object_entry
+              (property_name)
+              (value
+                (string)))))))))

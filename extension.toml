@@ -1,0 +1,29 @@
+id = "dowe"
+name = "Dowe"
+description = "Dowe Source Format support for Zed."
+version = "0.1.0"
+schema_version = 1
+authors = ["Dowe Contributors"]
+repository = "https://github.com/dowe-lang/dowe-lsp"
+languages = ["languages/dowe"]
+icon_themes = ["icon_themes/dowe-icons.json"]
+capabilities = []
+
+[lib]
+
+[language_servers.dowe-language-server]
+name = "Dowe Language Server"
+languages = ["Dowe"]
+
+[language_servers.dowe-language-server.language_ids]
+"Dowe" = "dowe"
+
+[grammars.dowe]
+repository = "file:///Users/varb/Work/dowe-lsp/.zed-dev/tree-sitter-dowe.git"
+rev = "a81fb0c024538431a3b5824a06b4409926a5079e"
+
+[context_servers]
+
+[agent_servers]
+
+[slash_commands]
