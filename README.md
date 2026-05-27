@@ -1,77 +1,79 @@
 # Dowe LSP
 
-Dowe LSP is the dedicated editor tooling workspace for Dowe Source Format files.
+Dowe LSP is the dedicated Rust language-server repository for Dowe Source Format files.
 
-This repository contains the Rust `dowe-language-server` binary, the Zed extension adapter, language metadata, Tree-sitter queries, icon metadata, and the Dowe Tree-sitter grammar used by Zed. It recognizes `.dowe` files as `Dowe` and starts `dowe-language-server` over stdio.
+This repository builds `dowe-language-server`. The language server owns diagnostics, completions, formatting, hover, symbols, navigation, and semantic editor behavior by consuming the shared Dowe compiler APIs from the sibling Dowe checkout.
 
-Editor tooling is maintained here directly. It is not generated from, embedded in, or installed through the main Dowe repository.
+The official Zed extension lives in `../dowe-zed`. Do not install the Zed dev extension from this repository for local Dowe editing; install or refresh the language-server binary here, then install the extension from `../dowe-zed`.
+
+## Repository Split
+
+| Repository | Responsibility |
+| --- | --- |
+| `../dowe` | Compiler, source parser, component model, semantic validation, target generation, and public Dowe docs |
+| `../dowe-lsp` | Rust `dowe-language-server` and semantic editor features |
+| `../dowe-zed` | Zed extension adapter, Tree-sitter grammar, Zed queries, icon themes, `extension.toml`, and dev-extension install surface |
+
+This split is intentional. Keep language semantics close to the compiler and keep Zed packaging in the Zed extension repository. Tree-sitter grammar and Zed queries may classify source for editor display, but they must not duplicate compiler validation rules.
 
 ## Requirements
 
-- Zed with Rust extension development support.
 - Rust installed through `rustup`.
-- The `wasm32-wasip2` Rust target for local adapter builds.
 - A sibling Dowe checkout at `../dowe` for local language-server builds against `dowe_compiler`.
 
-The extension does not require Node.js, `node_modules`, npm, Prettier, or ESLint.
+The language server does not require Node.js, `node_modules`, npm, Prettier, or ESLint.
 
 ## Local Development
 
-Install the Rust target used by Zed extensions if it is not already present:
-
-```sh
-rustup target add wasm32-wasip2
-```
-
-Prepare the local grammar mirror used by Zed dev extension installs:
-
-```sh
-./scripts/bootstrap-grammar-repo.sh
-```
-
-The bootstrap script creates `.zed-dev/tree-sitter-dowe.git` from the bundled `tree-sitter-dowe` directory and updates the grammar `rev` in `extension.toml`. Run it again after changing the grammar.
-
-Build the extension adapter:
-
-```sh
-cargo check -p dowe-lsp-zed-extension --target wasm32-wasip2
-```
-
-Build or install the language server:
+Build and install the language server:
 
 ```sh
 cargo check -p dowe_language_server
-cargo install --path crates/language_server --debug --force
+cargo install --path crates/language_server --force
 ```
 
-Install the extension in Zed with `zed: install dev extension` and select this repository directory.
-
-The extension also provides the `Dowe Icons Dark` and `Dowe Icons Light` icon themes. Select one from Zed's icon theme selector to use the Dowe logo for `.dowe` files in the project panel.
-
-Run local validation:
+For Zed validation after language-server changes, refresh the extension from the sibling Zed repository:
 
 ```sh
+cd ../dowe-zed
+cd tree-sitter-dowe
+tree-sitter generate
+tree-sitter test
+cd ..
+./scripts/bootstrap-grammar-repo.sh
 ./scripts/check.sh
 ```
 
-## View Syntax
+Install the extension in Zed with `zed: install dev extension` and select `../dowe-zed`.
 
-The grammar recognizes the built-in `Input`, `Select`, and `Option` form controls. Completion and diagnostic support for their props is provided by `dowe-language-server`.
+When testing local compiler or language API changes, configure Zed's Dowe language server binary path to `/Users/varb/.cargo/bin/dowe-language-server` after `cargo install`, or to this repository's `target/debug/dowe-language-server` when running a debug build directly. Restart the Dowe language server or reload the Zed window after replacing the executable.
 
-```text
-Input label:"Email" placeholder:"name@example.com" labelFloating:true variant:"outlined" scheme:"primary"
-Select label:"Role" placeholder:"Choose a role" labelFloating:true variant:"soft" scheme:"secondary"
-  Option value:"admin" label:"Administrator" description:"Manage users"
-  Option value:"viewer" label:"Viewer"
-```
+## Zed Extension Updates
 
-`Input` recognizes `label`, `placeholder`, and `labelFloating` through language-server support. `Select` recognizes the same visual props plus `bind`, `variant`, and `scheme`; direct `Option` children use `value`, `label`, and optional `description`. Every static string prop uses double quotes, including design tokens and enum values, so the language server flags `Option value:admin`, `Path fill:none`, `variant:outlined`, and `scheme:primary`. Resolved references such as `bind:profile.role` and `onClick:save` remain bare.
+Use `../dowe-zed` for all Zed-specific changes:
+
+- `tree-sitter-dowe/grammar.js` for syntax nodes, component names, block keywords, and recovery behavior.
+- `languages/dowe/*.scm` for highlighting, indentation, outline, text objects, and bracket matching.
+- `extension.toml` for Zed language, grammar, icon, and language-server registration.
+- `icon_themes` and `assets` for Dowe file icons.
+
+Use this repository for semantic changes:
+
+- Compiler-backed diagnostics.
+- Formatter behavior.
+- Completion labels and source edits.
+- Hover and go-to-definition behavior.
+- Document symbols and workspace analysis.
+
+When a Dowe feature changes both syntax and semantics, update both repositories in the same work.
 
 ## Language Server
 
-The published extension must not depend on a private Dowe checkout. The adapter uses an explicit Zed LSP binary setting when present, then a `dowe-language-server` binary on `PATH`, and otherwise asks Zed to download `dowe-language-server` from public release assets on `dowe-lang/dowe-lsp`.
+`dowe-language-server` is a Rust stdio language server. It does not execute `.dowe` files, start `dowe dev`, open server ports, run handlers, require `node_modules`, or use Prettier, ESLint, npm, React, DOM, or Node.js.
 
-Each release that should provide language-server features needs these assets:
+The Zed adapter decides which public release repository provides managed `dowe-language-server` assets. Local development should use an explicit Zed binary setting or a `dowe-language-server` binary on `PATH` so extension tests do not depend on public releases.
+
+Each managed release that provides language-server features needs these assets:
 
 ```text
 dowe-language-server-darwin-aarch64.tar.gz
@@ -87,40 +89,12 @@ Each archive should contain the executable at its root:
 - `dowe-language-server` for macOS and Linux.
 - `dowe-language-server.exe` for Windows.
 
-For local development, install the current language server on `PATH` after compiler or language API changes:
-
-```sh
-cargo install --path crates/language_server --force
-```
-
-## Publishing
-
-Before publishing to the Zed extension registry, `extension.toml` must point at a public grammar source. Zed allows a Tree-sitter grammar to live in a subdirectory by using `path = "tree-sitter-dowe"`.
-
-After committing grammar changes, prepare the manifest for publication:
-
-```sh
-./scripts/prepare-publish.sh
-```
-
-This changes the grammar entry to use `https://github.com/dowe-lang/dowe-lsp`, the current `HEAD` commit, and `path = "tree-sitter-dowe"`.
-
-Then open a PR to `zed-industries/extensions` that adds this repository as a submodule under `extensions/dowe` and adds the matching version to `extensions.toml`.
-
 ## Repository Layout
 
 | Path | Purpose |
 | --- | --- |
-| `extension.toml` | Registers the Zed extension, grammar, and language server |
-| `Cargo.toml` | Defines the editor tooling workspace and WebAssembly extension adapter |
 | `crates/language_server` | Builds the Rust `dowe-language-server` binary |
-| `src/lib.rs` | Starts `dowe-language-server` for Zed |
-| `languages/dowe/config.toml` | Registers `.dowe`, tab size, and grammar metadata |
-| `languages/dowe/*.scm` | Tree-sitter queries for highlighting, indentation, outline, text objects, and brackets |
-| `icon_themes/dowe-icons.json` | Registers the Dowe file icon theme |
-| `assets/logo.svg` | Provides the Dowe icon asset |
-| `tree-sitter-dowe/grammar.js` | Tree-sitter grammar source |
-| `tree-sitter-dowe/src/parser.c` | Generated Tree-sitter parser consumed by Zed |
-| `scripts/bootstrap-grammar-repo.sh` | Builds the local git mirror used by Zed dev extension installs |
-| `scripts/prepare-publish.sh` | Points the grammar at the public repository before publishing |
-| `scripts/check.sh` | Runs local build and decoupling checks |
+| `Cargo.toml` | Defines the local language-server workspace and any transitional editor tooling packages |
+| `README.md` | Documents the active language-server workflow |
+
+Legacy Zed extension scaffolding may exist in older checkouts of this repository. The active Zed extension workflow is `../dowe-zed`.

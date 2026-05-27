@@ -580,6 +580,14 @@
     "named": false
   },
   {
+    "type": "AppBar",
+    "named": false
+  },
+  {
+    "type": "BottomBar",
+    "named": false
+  },
+  {
     "type": "Box",
     "named": false
   },
@@ -597,6 +605,10 @@
   },
   {
     "type": "Flex",
+    "named": false
+  },
+  {
+    "type": "Footer",
     "named": false
   },
   {
@@ -676,6 +688,10 @@
     "named": true
   },
   {
+    "type": "center",
+    "named": false
+  },
+  {
     "type": "children",
     "named": false
   },
@@ -717,6 +733,10 @@
   },
   {
     "type": "else",
+    "named": false
+  },
+  {
+    "type": "end",
     "named": false
   },
   {
@@ -853,6 +873,10 @@
   },
   {
     "type": "signal",
+    "named": false
+  },
+  {
+    "type": "start",
     "named": false
   },
   {

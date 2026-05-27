@@ -100,11 +100,14 @@ module.exports = grammar({
       "cors",
       "design",
       "theme",
-      "children"
+      "children",
+      "start",
+      "center",
+      "end"
     ),
     control_keyword: $ => choice("if", "else", "each"),
     action_keyword: $ => choice("signal", "action", "request", "assign", "reset", "return", "continue", "response", "let", "log", "info", "warn", "error", "open", "message", "close", "drain", "onSuccess", "onError"),
-    component_name: $ => choice("Box", "Flex", "Grid", "Card", "Input", "Select", "Option", "Button", "Alert", "Title", "Text", "Svg", "Path"),
+    component_name: $ => choice("Box", "Flex", "Grid", "Card", "AppBar", "Footer", "BottomBar", "Input", "Select", "Option", "Button", "Alert", "Title", "Text", "Svg", "Path"),
     property_name: $ => token(prec(1, /[A-Za-z_][A-Za-z0-9_]*/)),
     identifier: $ => token(prec(-1, /[A-Za-z_][A-Za-z0-9_]*/)),
     punctuation: $ => choice(":", ",", ".", "!", "?", ";")

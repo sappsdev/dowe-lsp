@@ -1,4 +1,127 @@
 ==================
+Layout bars
+==================
+
+layout AuthLayout
+  AppBar variant:"soft" scheme:"surface" bordered:true boxed:true
+    start
+      Text
+        Dowe
+    center
+      Text
+        Auth
+    end
+      Button href:"/blogs"
+        Blogs
+  Footer scheme:"background"
+    start
+      Text
+        Legal
+  BottomBar bordered:true
+    center
+      Text
+        Tabs
+
+---
+
+(source_file
+  (node_line
+    (line_name
+      (root_keyword))
+    (line_item
+      (value
+        (property_name))))
+  (node_line
+    (line_name
+      (component_name))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (string))))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (string))))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (boolean))))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (boolean)))))
+  (node_line
+    (line_name
+      (block_keyword)))
+  (node_line
+    (line_name
+      (component_name)))
+  (text_line
+    (text_token
+      (identifier)))
+  (node_line
+    (line_name
+      (block_keyword)))
+  (node_line
+    (line_name
+      (component_name)))
+  (text_line
+    (text_token
+      (identifier)))
+  (node_line
+    (line_name
+      (block_keyword)))
+  (node_line
+    (line_name
+      (component_name))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (string)))))
+  (text_line
+    (text_token
+      (identifier)))
+  (node_line
+    (line_name
+      (component_name))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (string)))))
+  (node_line
+    (line_name
+      (block_keyword)))
+  (node_line
+    (line_name
+      (component_name)))
+  (text_line
+    (text_token
+      (identifier)))
+  (node_line
+    (line_name
+      (component_name))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (boolean)))))
+  (node_line
+    (line_name
+      (block_keyword)))
+  (node_line
+    (line_name
+      (component_name)))
+  (text_line
+    (text_token
+      (identifier))))
+
+==================
 Svg paths and children
 ==================
 
@@ -17,9 +140,9 @@ page loginPage
   (node_line
     (line_name
       (root_keyword))
-      (line_item
-        (value
-          (property_name))))
+    (line_item
+      (value
+        (property_name))))
   (node_line
     (line_name
       (component_name)))
@@ -29,9 +152,9 @@ page loginPage
   (node_line
     (line_name
       (root_keyword))
-      (line_item
-        (value
-          (property_name))))
+    (line_item
+      (value
+        (property_name))))
   (node_line
     (line_name
       (component_name))
@@ -40,11 +163,11 @@ page loginPage
         (property_name)
         (value
           (string))))
-        (line_item
-          (prop
+    (line_item
+      (prop
         (property_name)
         (value
-              (string))))
+          (string))))
     (line_item
       (prop
         (property_name)
@@ -63,19 +186,19 @@ page loginPage
         (property_name)
         (value
           (string))))
-        (line_item
-          (prop
+    (line_item
+      (prop
         (property_name)
         (value
-              (string)))))
+          (string)))))
   (node_line
     (line_name
       (component_name))
-        (line_item
-          (prop
-            (property_name)
-            (value
-              (string))))
+    (line_item
+      (prop
+        (property_name)
+        (value
+          (string))))
     (line_item
       (prop
         (property_name)

@@ -804,6 +804,18 @@
         {
           "type": "STRING",
           "value": "children"
+        },
+        {
+          "type": "STRING",
+          "value": "start"
+        },
+        {
+          "type": "STRING",
+          "value": "center"
+        },
+        {
+          "type": "STRING",
+          "value": "end"
         }
       ]
     },
@@ -923,6 +935,18 @@
         {
           "type": "STRING",
           "value": "Card"
+        },
+        {
+          "type": "STRING",
+          "value": "AppBar"
+        },
+        {
+          "type": "STRING",
+          "value": "Footer"
+        },
+        {
+          "type": "STRING",
+          "value": "BottomBar"
         },
         {
           "type": "STRING",
