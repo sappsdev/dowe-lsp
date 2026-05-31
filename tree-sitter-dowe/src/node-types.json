@@ -600,6 +600,10 @@
     "named": false
   },
   {
+    "type": "Code",
+    "named": false
+  },
+  {
     "type": "DELETE",
     "named": false
   },
